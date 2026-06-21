@@ -4,8 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "sources/**"
-      - "templates/**"
+      - "sources/multi.mangadex/**"
       - ".github/workflows/build.yaml"
 
 concurrency:
@@ -56,15 +55,13 @@ jobs:
           fi
       - name: Build sources
         run: |
-          for src in ./sources/*; do
-            (
-              cd "$src"
-              aidoku package
-            )
-          done
+          (
+            cd ./sources/multi.mangadex
+            aidoku package
+          )
       - name: Build source list
         run: |
-          aidoku build sources/*/package.aix --name "Aidoku Community Sources"
+          aidoku build sources/multi.mangadex/package.aix --name "Aidoku Community Sources"
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.7.2
         if: ${{ github.ref == 'refs/heads/main' }}
