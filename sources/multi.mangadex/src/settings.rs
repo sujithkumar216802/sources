@@ -1,9 +1,8 @@
-use crate::TokenResponse;
 use aidoku::{
 	Result,
 	alloc::{string::String, vec::Vec},
 	imports::{
-		defaults::{DefaultValue, defaults_get, defaults_get_json, defaults_set},
+		defaults::{DefaultValue, defaults_get, defaults_set},
 		error::AidokuError,
 	},
 };
@@ -18,8 +17,12 @@ const BLOCKED_UUIDS_KEY: &str = "blockedUUIDs";
 const FORCE_PORT_KEY: &str = "standardHttpsPort";
 const DATA_SAVER_KEY: &str = "dataSaver";
 const LOCKED_CHAPTERS_KEY: &str = "lockedChapters";
-const TOKEN_KEY: &str = "login";
-const CLIENT_SECRET: &str = "login.clientSecret";
+const USERNAME_KEY: &str = "username";
+const PASSWORD_KEY: &str = "password";
+const CLIENT_ID_KEY: &str = "clientId";
+const CLIENT_SECRET_KEY: &str = "clientSecret";
+const REFRESH_TOKEN_KEY: &str = "refreshToken";
+const ACCESS_TOKEN_KEY: &str = "accessToken";
 
 pub fn get_languages() -> Result<Vec<String>> {
 	defaults_get::<Vec<String>>(LANGUAGES_KEY)
@@ -119,21 +122,37 @@ pub fn get_cover_quality() -> String {
 }
 
 pub fn is_logged_in() -> bool {
-	defaults_get_json::<TokenResponse>(TOKEN_KEY).is_ok()
+	get_username().is_some() && get_password().is_some()
 }
 
-pub fn get_token() -> Result<TokenResponse> {
-	defaults_get_json::<TokenResponse>(TOKEN_KEY).map_err(|_| AidokuError::message("Not logged in"))
+pub fn get_username() -> Option<String> {
+	defaults_get::<String>(USERNAME_KEY).filter(|value| !value.is_empty())
 }
 
-pub fn set_token(token: &str) {
-	defaults_set(TOKEN_KEY, DefaultValue::String(String::from(token)));
+pub fn get_password() -> Option<String> {
+	defaults_get::<String>(PASSWORD_KEY).filter(|value| !value.is_empty())
 }
 
-pub fn clear_token() {
-	defaults_set(TOKEN_KEY, DefaultValue::Null);
+pub fn get_client_id() -> Option<String> {
+	defaults_get::<String>(CLIENT_ID_KEY).filter(|value| !value.is_empty())
 }
 
 pub fn get_client_secret() -> Option<String> {
-	defaults_get::<String>(CLIENT_SECRET)
+	defaults_get::<String>(CLIENT_SECRET_KEY).filter(|value| !value.is_empty())
+}
+
+pub fn get_refresh_token() -> Option<String> {
+	defaults_get::<String>(REFRESH_TOKEN_KEY).filter(|value| !value.is_empty())
+}
+
+pub fn set_refresh_token(token: &str) {
+	defaults_set(REFRESH_TOKEN_KEY, DefaultValue::String(String::from(token)));
+}
+
+pub fn get_access_token() -> Option<String> {
+	defaults_get::<String>(ACCESS_TOKEN_KEY).filter(|value| !value.is_empty())
+}
+
+pub fn set_access_token(token: &str) {
+	defaults_set(ACCESS_TOKEN_KEY, DefaultValue::String(String::from(token)));
 }

@@ -66,18 +66,41 @@
 	{
 		"type": "group",
 		"title": "Account",
-		"footer": "Log in to your MangaDex account to view your saved content in the Library listing.",
+		"footer": "Enter your MangaDex username, password, and personal API client credentials to view your saved content in the Library listing.",
 		"items": [
 			{
-				"type": "login",
-				"key": "login",
-				"method": "oauth",
-				"url": "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/auth?client_id=neko&redirect_uri=neko://mangadex-auth&scope=email+openid",
-				"tokenUrl": "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token",
-				"pkce": true,
-				"callbackScheme": "neko",
-				"title": "Log in with MangaDex",
+				"type": "text",
+				"key": "username",
+				"title": "Username",
+				"placeholder": "MangaDex username",
+				"autocapitalizationType": 0,
+				"autocorrectionDisabled": true,
 				"refreshes": ["listings"]
+			},
+			{
+				"type": "text",
+				"key": "password",
+				"title": "Password",
+				"placeholder": "MangaDex password",
+				"autocapitalizationType": 0,
+				"autocorrectionDisabled": true,
+				"refreshes": ["listings"]
+			},
+			{
+				"type": "text",
+				"key": "clientId",
+				"title": "Client ID",
+				"placeholder": "Personal API client ID",
+				"autocapitalizationType": 0,
+				"autocorrectionDisabled": true
+			},
+			{
+				"type": "text",
+				"key": "clientSecret",
+				"title": "Client Secret",
+				"placeholder": "Personal API client secret",
+				"autocapitalizationType": 0,
+				"autocorrectionDisabled": true
 			}
 		]
 	},
