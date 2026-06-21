@@ -10,9 +10,8 @@ use aidoku::{
 	prelude::*,
 };
 
-const CLIENT_ID: &str = "neko"; // we hijack neko's login system
+const CLIENT_ID: &str = "personal-client-243b0512-fa6f-42bd-8d9e-1e5367a64ea0-dc367f79";
 const AUTH_URL: &str = "https://auth.mangadex.org";
-const REDIRECT_URI: &str = "neko://mangadex-auth";
 
 fn refresh_access_token() -> Result<TokenResponse> {
 	let Ok(token_response) = settings::get_token() else {
@@ -26,13 +25,12 @@ fn refresh_access_token() -> Result<TokenResponse> {
 	};
 
 	let url = format!("{AUTH_URL}/realms/mangadex/protocol/openid-connect/token");
-	let code_verifier = settings::get_code_verifier().unwrap_or_default();
+	let client_secret = settings::get_client_secret().unwrap_or_default();
 	let body = format!(
 		"client_id={CLIENT_ID}\
 			&grant_type=refresh_token\
 			&refresh_token={refresh_token}\
-			&code_verifier={code_verifier}\
-			&redirect_uri={REDIRECT_URI}",
+			&client_secret={client_secret}",
 	);
 	let token_response = Request::post(url)?
 		.header("Content-Type", "application/x-www-form-urlencoded")

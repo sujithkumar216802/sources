@@ -19,7 +19,7 @@ const FORCE_PORT_KEY: &str = "standardHttpsPort";
 const DATA_SAVER_KEY: &str = "dataSaver";
 const LOCKED_CHAPTERS_KEY: &str = "lockedChapters";
 const TOKEN_KEY: &str = "login";
-const CODE_VERIFIER_KEY: &str = "login.codeVerifier";
+const CLIENT_SECRET: &str = "login.clientSecret";
 
 pub fn get_languages() -> Result<Vec<String>> {
 	defaults_get::<Vec<String>>(LANGUAGES_KEY)
@@ -134,6 +134,6 @@ pub fn clear_token() {
 	defaults_set(TOKEN_KEY, DefaultValue::Null);
 }
 
-pub fn get_code_verifier() -> Option<String> {
-	defaults_get::<String>(CODE_VERIFIER_KEY)
+pub fn get_client_secret() -> Option<String> {
+	defaults_get::<String>(CLIENT_SECRET)
 }
